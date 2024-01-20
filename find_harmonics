@@ -36,7 +36,7 @@ def make_camelot_wheel(key):
     return camelot
 
 camelot = make_camelot_wheel(key)
-print(f'camelot: {camelot}')
+# print(f'camelot: {camelot}')
 p = camelot.split('_')
 
 def canfol(camelot):
@@ -72,7 +72,7 @@ for cf in canfollow:
     cam_index = camelot_list.index(cf)
     key = key_list[cam_index]
     keys.append(key)
-print(f'overlap keys: {keys[0]}, {keys[1]}, {keys[2]} {keys[3]}')
+
 
 
 num = int(p[0])
@@ -89,4 +89,6 @@ set1 = set(canfollow)
 set2 = set(wide)
 wide_harmonics = set2.difference(set1)
 
-print(f'wide_harmonics: {wide_harmonics}')
+print(f'wide_camelot: {wide_harmonics}')
+print()
+print(f'overlap keys: {keys[0]}, {keys[1]}, {keys[2]} {keys[3]}')
