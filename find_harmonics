@@ -1,4 +1,22 @@
+threshold = 2
+
+
+def calculate_nearby_camelot_num(num, threshold):
+
+    integer_list = list(range((-1)*threshold, threshold + 1))
+
+    cam_nums = []
+    for i in integer_list:
+        cam_num = (num + i) % 12
+        if cam_num == 0:
+            cam_num = 12
+        cam_nums.append(cam_num)
+    return cam_nums
+
+
 key = input('key?? >>')
+
+
 key_list = ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C#', 'D#', 'F#', 'G#', 'A#', 'Db', 'Eb', 'Gb', 'Ab', 'Bb', 'Cm',
             'Dm',
             'Em', 'Fm', 'Gm', 'Am', 'Bm', 'C#m', 'D#m', 'F#m', 'G#m', 'A#m', 'Dbm', 'Ebm', 'Gbm', 'Abm', 'Bbm']
@@ -7,7 +25,7 @@ camelot_list = ['8_B', '10_B', '12_B', '7_B', '9_B', '11_B', '1_B', '3_B', '5_B'
                 '5_A', '7_A', '9_A', '4_A', '6_A', '8_A', '10_A', '12_A', '2_A', '11_A', '1_A', '3_A', '12_A',
                 '2_A', '11_A', '1_A', '3_A']
 
-import random
+
 def make_camelot_wheel(key):
 
     key_index = key_list.index(key)
@@ -17,9 +35,11 @@ def make_camelot_wheel(key):
 
 camelot = make_camelot_wheel(key)
 print(f'camelot: {camelot}')
+p = camelot.split('_')
+
 def canfol(camelot):
 
-    p = camelot.split('_')
+
     appo = None
     if p[1] == 'A':
         appo = 'B'
@@ -40,13 +60,31 @@ def canfol(camelot):
         b = str(int(p[0]) - 1) + '_' + p[1]
         c = p[0] + '_' + appo
 
-    return a, b, c
+    return a, b, c, camelot
 
 canfollow = list(canfol(camelot))
-print(f'overlap camelot: {canfollow}')
+print(f'just camelot: {canfollow}')
+
 keys=[]
 for cf in canfollow:
     cam_index = camelot_list.index(cf)
     key = key_list[cam_index]
     keys.append(key)
-print(f'overlap keys: {keys[0]}, {keys[1]}, {keys[2]}')
+print(f'overlap keys: {keys[0]}, {keys[1]}, {keys[2]} {keys[3]}')
+
+
+num = int(p[0])
+
+camnum_list = calculate_nearby_camelot_num(num, threshold)
+
+wide=[]
+for camnum in camnum_list:
+    chord_A = f'{str(camnum)}_A'
+    chord_B = f'{str(camnum)}_B'
+    wide.append(chord_A)
+    wide.append(chord_B)
+set1 = set(canfollow)
+set2 = set(wide)
+wide_harmonics = set2.difference(set1)
+
+print(f'wide_harmonics: {wide_harmonics}')
