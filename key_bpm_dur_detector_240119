@@ -42,7 +42,7 @@ for i in tqdm(range(len(songs))):
         body.send_keys(Keys.PAGE_DOWN)
     bpm = driver.find_element(By.XPATH, '/html/body/div/main/div/div/div[1]/div[2]/a/div[2]/div[3]/span[2]').text
     dur = driver.find_element(By.XPATH, '/html/body/div/main/div/div/div[1]/div[2]/a/div[2]/div[2]/span[2]').text
-    key = driver.find_element(By.XPATH, '/html/body/div/main/div/div/div[1]/div[2]/a/div[2]/div[1]/span[2]').text
+    key = driver.find_element(By.XPATH, '/html/body/div/main/div/div/div[1]/div[2]/a/div[2]/div[1]/span[2]').text.split('/')[0]
     print(f'{song}-{artist} >> bpm: {bpm}, duration: {dur}, key: {key}')
     dic['song'].append(song)
     dic['artist'].append(artist)
