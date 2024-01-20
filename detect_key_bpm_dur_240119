@@ -1,0 +1,53 @@
+import os
+from selenium import webdriver
+import time
+from selenium.webdriver import ActionChains
+
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import SessionNotCreatedException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+import pandas as pd
+from tqdm import tqdm
+import pandas as pd
+
+df = pd.read_excel(r'C:/Users/kostolany/Desktop/new_2010.xlsx')
+songs = df.song.values
+artists = df.artist.values
+
+dic = {'song':[], 'artist':[], 'bpm':[], 'duration':[], 'key':[]}
+for i in tqdm(range(len(songs))):
+    song = songs[i]
+    artist = artists[i]
+    URL = 'https://songbpm.com/'
+    # driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument("headless")
+    driver = webdriver.Chrome(options=options)
+    driver.get(url=URL)
+    driver.implicitly_wait(10)
+    s_box = driver.find_element(By.XPATH, '/html/body/div/form/input')
+    s_box.clear()
+    song_info = f'{song} {artist}'
+    s_box.send_keys(song_info)
+    s_box.send_keys(Keys.ENTER)
+    driver.implicitly_wait(10)
+    body = driver.find_element(By.CSS_SELECTOR, 'body')
+    for i in range(15):
+        body.send_keys(Keys.PAGE_DOWN)
+    bpm = driver.find_element(By.XPATH, '/html/body/div/main/div/div/div[1]/div[2]/a/div[2]/div[3]/span[2]').text
+    dur = driver.find_element(By.XPATH, '/html/body/div/main/div/div/div[1]/div[2]/a/div[2]/div[2]/span[2]').text
+    key = driver.find_element(By.XPATH, '/html/body/div/main/div/div/div[1]/div[2]/a/div[2]/div[1]/span[2]').text
+    print(f'{song}-{artist} >> bpm: {bpm}, duration: {dur}, key: {key}')
+    dic['song'].append(song)
+    dic['artist'].append(artist)
+    dic['bpm'].append(bpm)
+    dic['duration'].append(dur)
+    dic['key'].append(key)
+  
+song_info_df = pd.DataFrame(dic)
+print(song_info_df)
+song_info_df.to_xlsx('~/local/folder/path/~')
