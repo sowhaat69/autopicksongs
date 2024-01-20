@@ -1,3 +1,5 @@
+# song, artist 열을 가진 xlsx 파일을 읽어 그 곡의 키와 템포와 길이를 다시 xlsx파일에 저장한다. 
+
 import os
 from selenium import webdriver
 import time
