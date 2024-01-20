@@ -1,0 +1,52 @@
+key = input('key?? >>')
+key_list = ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C#', 'D#', 'F#', 'G#', 'A#', 'Db', 'Eb', 'Gb', 'Ab', 'Bb', 'Cm',
+            'Dm',
+            'Em', 'Fm', 'Gm', 'Am', 'Bm', 'C#m', 'D#m', 'F#m', 'G#m', 'A#m', 'Dbm', 'Ebm', 'Gbm', 'Abm', 'Bbm']
+camelot_list = ['8_B', '10_B', '12_B', '7_B', '9_B', '11_B', '1_B', '3_B', '5_B', '2_B', '4_B', '6_B', '3_B', '5_B',
+                '2_B', '4_B', '6_B',
+                '5_A', '7_A', '9_A', '4_A', '6_A', '8_A', '10_A', '12_A', '2_A', '11_A', '1_A', '3_A', '12_A',
+                '2_A', '11_A', '1_A', '3_A']
+
+import random
+def make_camelot_wheel(key):
+
+    key_index = key_list.index(key)
+    camelot = camelot_list[key_index]
+    p = camelot.split('_')
+    return camelot
+
+camelot = make_camelot_wheel(key)
+print(f'camelot: {camelot}')
+def canfol(camelot):
+
+    p = camelot.split('_')
+    appo = None
+    if p[1] == 'A':
+        appo = 'B'
+    elif p[1] == 'B':
+        appo = 'A'
+    else:pass
+
+    if int(p[0]) == 1:
+        a = '2' + '_' + p[1]
+        b = '12' + '_' + p[1]
+        c = '1' + '_' + appo
+    elif int(p[0]) == 12:
+        a = '1' + '_' + p[1]
+        b = '11' + '_' + p[1]
+        c = '12' + '_' + appo
+    else:
+        a = str(int(p[0]) + 1) + '_' + p[1]
+        b = str(int(p[0]) - 1) + '_' + p[1]
+        c = p[0] + '_' + appo
+
+    return a, b, c
+
+canfollow = list(canfol(camelot))
+print(f'overlap camelot: {canfollow}')
+keys=[]
+for cf in canfollow:
+    cam_index = camelot_list.index(cf)
+    key = key_list[cam_index]
+    keys.append(key)
+print(f'overlap keys: {keys[0]}, {keys[1]}, {keys[2]}')
