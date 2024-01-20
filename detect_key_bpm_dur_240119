@@ -1,8 +1,10 @@
 import os
 from selenium import webdriver
 import time
+import pandas as pd
+from tqdm import tqdm
+import pandas as pd
 from selenium.webdriver import ActionChains
-
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import SessionNotCreatedException
@@ -10,11 +12,9 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
-import pandas as pd
-from tqdm import tqdm
-import pandas as pd
 
-df = pd.read_excel(r'C:/Users/kostolany/Desktop/new_2010.xlsx')
+
+df = pd.read_excel(~'C:/local/excel/folder/path.xlsx'~)
 songs = df.song.values
 artists = df.artist.values
 
