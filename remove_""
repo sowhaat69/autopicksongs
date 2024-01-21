@@ -1,0 +1,23 @@
+# 정규식을 사용해 따옴표를 벗기는 코드
+
+
+import pandas as pd
+
+df = pd.read_excel('C:/Users/sowha/Desktop/new_2000_ff.xlsx')
+songs = df.song.values
+artists = df.artist.values
+
+print(songs)
+print(artists)
+
+def extract_text(sstr):
+    return sstr.strip('"')
+sons=[]
+for i in range(len(songs)):
+    t = songs[i]
+    result = extract_text(t)
+    sons.append(result)
+dic = {'song': sons, 'artist': artists}
+df1 = pd.DataFrame(dic)
+print(df1)
+df1.to_excel('C:/Users/sowha/Desktop/new_2000_f.xlsx')
