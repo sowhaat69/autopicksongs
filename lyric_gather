@@ -1,0 +1,79 @@
+# 특정 폴더 안에(song, artist 열을 가진 엑셀을 읽어 그 곡의 가사를 지정한 폴더에 곡별 txt 형식으로 저장함 
+
+from selenium import webdriver
+import time
+from selenium.webdriver import ActionChains
+
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import SessionNotCreatedException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+import pandas as pd
+from tqdm import tqdm
+
+
+df_pl = pd.read_excel('C:/Users/sowha/Desktop/new_2000.xlsx').astype(str) ##genie_search
+# df_pl = pd.read_excel('C:/Users/sowha/Desktop/lyrics_P/lyrics_2000P/no_res2.xlsx').astype(str) ##google_search
+print(df_pl)
+# songs = df_pl.no_song.values##google_search
+songs = df_pl.song.values##genie_search
+# artists = df_pl.no_artist.values##google_search
+artists = df_pl.artist.values##genie_search
+print(songs)
+print(artists)
+
+# scope1 = 1501
+# scope2 = 2001
+no_songs=[]
+no_artists=[]
+for i in tqdm(range(len(df_pl))):
+    try:
+        URL = 'https://www.genie.co.kr/' ##genie_search
+        # URL = 'https://www.google.com/' ##google_search
+        # driver = webdriver.Chrome()
+        options = webdriver.ChromeOptions()
+        options.add_argument("headless")
+        driver = webdriver.Chrome(options=options)
+        driver.get(url=URL)
+        s_box = driver.find_element(By.XPATH, '//*[@id="sc-fd"]') ##genie_search
+        # s_box = driver.find_element(By.NAME, 'q') ##google_search
+        s_box.clear()
+        s_box.send_keys(f'{songs[i]} {artists[i]}') ##genie_search
+        # s_box.send_keys(f'{songs[i]} {artists[i]} lyrics') ##google_search
+        s_box.send_keys(Keys.ENTER)
+        l_button = driver.find_element(By.XPATH,'//*[@id="body-content"]/div[3]/div[2]/div/table/tbody/tr[1]/td[4]/a') ##genie_search
+        l_button.click() ##genie_search
+        lyric = driver.find_element(By.XPATH, '//*[@id="pLyrics"]/p').text ##genie_search
+        # lyric = driver.find_element(By.XPATH, '//*[@id="kp-wp-tab-default_tab:kc:/music/recording_cluster:lyrics"]/div/div/div/div/div/div/div/div/div[1]/div[2]').text ##google_search
+        f = open(f'C:/Users/sowha/Desktop/lyrics_k/lyrics2000K_2/{songs[i]}_{artists[i]}.txt', 'w',  encoding='utf-8')
+        f.write(lyric)
+        f.close()
+        time.sleep(0.2)
+    except NoSuchElementException as e:
+        print("NoSuchElementException!")
+        no_songs.append(songs[i])
+        no_artists.append(artists[i])
+        time.sleep(0.2)
+    except OSError:
+        print('OSError!')
+        no_songs.append(songs[i])
+        no_artists.append(artists[i])
+        time.sleep(0.2)
+
+    except WebDriverException:
+        print('WebDriverException!')
+        no_songs.append(songs[i])
+        no_artists.append(artists[i])
+        time.sleep(0.2)
+    finally:
+        print(f'{songs[i]} {artists[i]} completed')
+        driver.quit()
+
+no_dic = {'no_song': no_songs, 'no_artist': no_artists}
+no_df = pd.DataFrame(no_dic)
+# no_df.to_excel(f'C:/Users/sowha/Desktop/lyrics_P/popular_song/no_res_{scope1}_{scope2}.xlsx')
+no_df.to_excel(f'C:/Users/sowha/Desktop/lyrics_k/lyrics2000K_2/no_res_NEW2000.xlsx')
