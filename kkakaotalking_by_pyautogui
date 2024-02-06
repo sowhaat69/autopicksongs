@@ -1,0 +1,54 @@
+import pyautogui as pg
+import time
+import pyperclip
+import clipboard
+
+pg.doubleClick(208,331)#텔레그램 클릭
+time.sleep(5)
+pg.click(82, 55) #검색상자 클릭
+time.sleep(2)
+pg.typewrite('Hola!')
+pg.press('enter')
+time.sleep(2)
+pg.rightClick(893, 940) #텍스트 우클릭
+time.sleep(2)
+pg.click(957, 785) #카피
+time.sleep(2)
+result = clipboard.paste()
+pg.click(1900, 17) #x클릭
+time.sleep(2)
+
+names = ['한인배','김병진','이상호','최재성','윤석훈','조성훈','방세준','오윤석','김성영 Sungyoung Kim 미국','전한빛']
+for name in names:
+    result = str(result).replace('전한빛', name)
+    pg.doubleClick(112, 944)
+    time.sleep(5)
+    pg.click(x=1066, y=380)
+    pg.typewrite('qpqp980970?')
+    time.sleep(2)
+    pg.press('enter')
+    time.sleep(2)
+    pg.click(1277, 118)
+    time.sleep(1)
+    pg.click(x=30, y=62)#친구 클릭
+    time.sleep(2)
+    pg.click(x=1854, y=60)#돋보기 클릭
+    time.sleep(2)
+    pg.click(x=133, y=105)#검색창 클릭
+    time.sleep(2)
+    pyperclip.copy(name) #이름입력
+    pg.hotkey('ctrl', 'v')
+    time.sleep(2)
+    pg.press('enter')
+    time.sleep(2)
+    message = result
+
+    pyperclip.copy(message)
+    pg.hotkey('ctrl', 'v')
+    pg.press('enter')
+    time.sleep(2)
+    pg.click(33,907)
+    time.sleep(2)
+    pg.hotkey('alt', 'n')
+    pg.click(x=1279, y=144)#최종x클릭
+    time.sleep(2)
