@@ -1,0 +1,16 @@
+# 파일 경로 설정
+file_path = 'example.txt'
+
+# 1. 파일 읽기
+with open(file_path, 'r', encoding='utf-8') as file:
+    lines = file.readlines()
+
+# 2. 새 줄 추가
+new_line = "추가된 새 줄입니다.\n"
+lines.append(new_line)
+
+# 3. 파일 다시 쓰기
+with open(file_path, 'w', encoding='utf-8') as file:
+    file.writelines(lines)
+
+print("파일이 성공적으로 업데이트되었습니다.")
